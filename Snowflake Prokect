@@ -1,0 +1,41 @@
+ArrayList <Flake> mySnowflake; //GLOBAL! EVERYTHING HAS ACCESS TO IT
+Flake myFlake;
+int spoke = 15;
+void setup() {
+  size(1440, 840);
+  mySnowflake = new ArrayList<Flake> ();
+  myFlake = new Flake();
+  mySnowflake.add(myFlake);
+}
+void draw() {
+  background(204);
+  translate(width/2, height/2);
+  if (!myFlake.ended || !myFlake.stuck) {
+    myFlake.move();
+  }
+  if (myFlake.update()) {
+    myFlake = new Flake();
+    if (getLastElement().x >= width/2 - getLastElement().flakeSize) {
+      noLoop();
+    }
+    mySnowflake.add(myFlake);
+  }
+  for (int i = 0; i < spoke; i++) {
+    // pushMatrix();
+
+    rotate(2*(PI)/spoke);
+    showFlakes();
+    //  popMatrix();
+  }
+}
+Flake getLastElement() {
+  int sizeOfSnowflake = mySnowflake.size()-1;
+  Flake lastElement = mySnowflake.get(sizeOfSnowflake);
+  return lastElement;
+}
+void showFlakes() {
+  for (Flake f : mySnowflake) {
+    f.show();
+  }
+}
+
