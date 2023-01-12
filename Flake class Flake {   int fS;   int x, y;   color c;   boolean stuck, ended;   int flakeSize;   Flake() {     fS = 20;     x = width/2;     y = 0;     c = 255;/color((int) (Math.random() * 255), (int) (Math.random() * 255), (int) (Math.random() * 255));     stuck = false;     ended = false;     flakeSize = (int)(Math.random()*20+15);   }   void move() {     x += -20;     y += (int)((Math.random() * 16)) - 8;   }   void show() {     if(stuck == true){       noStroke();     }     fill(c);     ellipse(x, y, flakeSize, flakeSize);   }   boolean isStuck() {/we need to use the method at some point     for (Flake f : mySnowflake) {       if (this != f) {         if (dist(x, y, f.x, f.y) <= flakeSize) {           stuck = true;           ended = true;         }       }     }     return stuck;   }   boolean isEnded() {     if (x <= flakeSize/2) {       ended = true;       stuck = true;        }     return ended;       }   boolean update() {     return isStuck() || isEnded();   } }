@@ -1,0 +1,51 @@
+
+class Flake {
+  int fS;
+  int x, y;
+  color c;
+  boolean stuck, ended;
+  int flakeSize;
+  Flake() {
+    fS = 20;
+    x = width/2;
+    y = 0;
+    c = 255;//color((int) (Math.random() * 255), (int) (Math.random() * 255), (int) (Math.random() * 255));
+    stuck = false;
+    ended = false;
+    flakeSize = (int)(Math.random()*20+15);
+  }
+  void move() {
+    x += -20;
+    y += (int)((Math.random() * 16)) - 8;
+  }
+  void show() {
+    if(stuck == true){
+      noStroke();
+    }
+    fill(c);
+    ellipse(x, y, flakeSize, flakeSize);
+  }
+  boolean isStuck() { //we need to use the method at some point
+    for (Flake f : mySnowflake) {
+      if (this != f) {
+        if (dist(x, y, f.x, f.y) <= flakeSize) {
+          stuck = true;
+          ended = true;
+        }
+      }
+    }
+    return stuck;
+  }
+  boolean isEnded() {
+    if (x <= flakeSize/2) {
+      ended = true;
+      stuck = true;
+  
+    }
+    return ended;
+   
+  }
+  boolean update() {
+    return isStuck() || isEnded();
+  }
+}
